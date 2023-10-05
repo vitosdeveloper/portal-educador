@@ -19,7 +19,10 @@ export async function POST(request: Request) {
   } catch (error) {
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : 'Something went wrong',
+        error:
+          error instanceof Error
+            ? error.message
+            : 'Opps! Houve algum erro no servidor.',
       },
       { status: 500 }
     );
