@@ -1,19 +1,13 @@
-'use client';
+import React from 'react';
 import { Box, Button } from '@mui/material';
-import Err from './components/form/Error';
-import Header from './components/partials/Header';
 import SchoolIcon from '@mui/icons-material/School';
-import { useEffect } from 'react';
+import Header from './partials/Header';
+import Error from './form/Error';
+import Link from 'next/link';
 
-type Props = {
-  error: Error & { digest?: string };
-  reset: () => void;
-};
+type Props = { error: Error };
 
-const Error = ({ error, reset }: Props) => {
-  useEffect(() => {
-    console.error(error);
-  }, [error]);
+const ErrorPage = ({ error }: Props) => {
   return (
     <>
       <Header />
@@ -25,17 +19,19 @@ const Error = ({ error, reset }: Props) => {
           alignItems: 'center',
           gap: '1rem',
           padding: '0 1rem',
-          color: 'black',
+          textAlign: 'center',
         }}
       >
         <div>
           <SchoolIcon sx={{ color: '#d32f2f', fontSize: '15rem' }} />
-          <Err error={error?.message} bigger />
+          <Error error={error?.message} bigger />
         </div>
-        <Button variant='outlined'>Voltar</Button>
+        <Link href='/turmas'>
+          <Button variant='outlined'>Voltar</Button>
+        </Link>
       </Box>
     </>
   );
 };
 
-export default Error;
+export default ErrorPage;
