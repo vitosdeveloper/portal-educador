@@ -1,11 +1,5 @@
 import { turmas } from '@/app/utils/turmas';
-import {
-  Box,
-  Divider,
-  List,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material';
+import { Box, List } from '@mui/material';
 import React from 'react';
 import Turma from './Turma';
 import { doesProfessorTeachHere } from '@/app/utils/doesProfessorTeachHere';

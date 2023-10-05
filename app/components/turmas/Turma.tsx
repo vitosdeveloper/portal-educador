@@ -19,7 +19,7 @@ type Props = {
 
 const Turma = ({ turmas, turmaObj, doesProfessorTeachHere, index }: Props) => {
   return (
-    <React.Fragment key={turmaObj.slug}>
+    <React.Fragment>
       <Box
         component={doesProfessorTeachHere ? Link : 'span'}
         href={`/turmas/${turmaObj.slug}`}

@@ -11,3 +11,16 @@ export const doesProfessorTeachHere = (
   }
   return false;
 };
+
+export const doesProfessorTeachThis = (
+  professor: {
+    materias: string[];
+    nome: string;
+  },
+  materia: string
+) => {
+  for (let mate of professor.materias) {
+    if (mate === materia) return true;
+  }
+  return false;
+};
