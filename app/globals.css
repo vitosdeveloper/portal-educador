@@ -1,4 +1,6 @@
 body {
+  padding: 0;
+  margin: 0;
   background: #eee;
   color: rgba(0, 0, 0, 0.8);
 }

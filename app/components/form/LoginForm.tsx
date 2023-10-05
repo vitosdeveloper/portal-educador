@@ -11,8 +11,8 @@ const LoginForm = () => {
     username: string;
     password: string;
   }>({
-    username: '',
-    password: '',
+    username: 'asd',
+    password: 'asd',
   });
 
   const handleFormChange = ({ target }: ChangeEvent<HTMLInputElement>) =>
@@ -49,6 +49,8 @@ const LoginForm = () => {
         onChange={handleFormChange}
         type='text'
         id='username'
+        required
+        autoComplete='off'
       />
       <InputLabel htmlFor='password'>Password</InputLabel>
       <Input
@@ -56,6 +58,7 @@ const LoginForm = () => {
         onChange={handleFormChange}
         type='password'
         id='password'
+        required
       />
       <Box
         sx={{
