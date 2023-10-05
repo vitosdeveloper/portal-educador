@@ -1,13 +1,12 @@
-import { Box } from '@mui/material';
-import SchoolIcon from '@mui/icons-material/School';
+import Header from '../components/partials/Header';
+import Title from '../components/Text/Title';
 
 const TurmasPage = () => {
   return (
-    <Box>
-      <Box component='h1' sx={{ textAlign: 'center' }}>
-        <SchoolIcon /> Turmas
-      </Box>
-    </Box>
+    <>
+      <Header />
+      <Title>Turmas</Title>
+    </>
   );
 };
 

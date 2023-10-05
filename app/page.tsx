@@ -1,14 +1,13 @@
 import { Box } from '@mui/material';
-import LoginForm from './components/form/LoginForm';
 import SchoolIcon from '@mui/icons-material/School';
+import LoginForm from './components/form/LoginForm';
+import Title from './components/Text/Title';
 
 export default function Home() {
   return (
-    <Box>
-      <Box component='h1' sx={{ textAlign: 'center' }}>
-        <SchoolIcon /> Portal Educador
-      </Box>
+    <>
+      <Title>Portal Educador</Title>
       <LoginForm />
-    </Box>
+    </>
   );
 }
