@@ -25,9 +25,9 @@ export default async function RootLayout({
     .props.childProp.segment;
   const isLoggedIn = isJwtValid();
   const isMainPage = route === '__PAGE__';
+
   if (!isLoggedIn && !isMainPage) redirect('/');
   if (isLoggedIn && isMainPage) redirect('/turmas');
-
   return (
     <html lang='en'>
       <body className={roboto.className}>{children}</body>

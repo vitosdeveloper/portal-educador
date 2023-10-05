@@ -7,17 +7,16 @@ import { useRouter } from 'next/navigation';
 function Header() {
   const router = useRouter();
   const classes: { [key: string]: SxProps<Theme> } = {
-    root: {
-      flexGrow: 1,
-    },
-    link: {
-      textDecoration: 'none',
-      color: 'inherit',
-    },
     nav: {
       display: 'flex',
       justifyContent: 'space-between',
       flexWrap: 'wrap',
+    },
+    link: {
+      textDecoration: 'none',
+      color: 'inherit',
+      fontSize: '1.25rem',
+      fontWeight: 'bold',
     },
   };
 
