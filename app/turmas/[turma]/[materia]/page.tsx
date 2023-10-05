@@ -30,6 +30,8 @@ const MateriaPage = ({ params: { turma, materia } }: Props) => {
     const alunosDaTurma = alunosMockados.filter(
       (alunoMock) => alunoMock.matriculado && alunoMock.turma === turma
     );
+    if (!alunosDaTurma.length)
+      er('Essa turma aparentemente ainda não tem alunos.');
     //pode até preencher 4 bimestres com o quarto estando vazio ou com - nos null,
     //mas só conte a média considerando os 3, por isso essa constante
     let quantidadeDeBimestres = 0;
