@@ -1,11 +1,13 @@
+import { er, errors } from '@/app/utils/errorUtils';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
-    const { username, password } = await request.json();
-    console.log(username, password);
-    if (username !== 'asd' || password !== 'asd')
-      throw new Error('Login ou senha incorretos.');
+    let { username, password } = await request.json();
+    username = username.trim();
+    password = password.trim();
+    if (username === '' || password === '') er(errors.input);
+    if (username !== 'asd' || password !== 'asd') er(errors.login);
     return NextResponse.json({ message: 'success' });
   } catch (error) {
     return NextResponse.json(

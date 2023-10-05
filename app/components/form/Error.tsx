@@ -11,13 +11,13 @@ const Error = ({ error }: Props) => {
       <Box
         sx={{
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'start',
           gap: '.25rem',
           margin: 0,
         }}
       >
-        <InfoOutlined color='warning' />
-        <Typography variant='subtitle2' color='#ed6c02'>
+        <InfoOutlined color='error' />
+        <Typography variant='subtitle2' color='#d32f2f'>
           {error || 'Opps! Houve algum erro.'}
         </Typography>
       </Box>

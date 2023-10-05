@@ -4,10 +4,8 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import Error from './Error';
 import useFetch from '@/app/custom-hooks/useFetch';
 import Loading from './Loading';
-import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
-  const router = useRouter();
   const { error, loading, data, request } = useFetch('/turmas');
   const [form, setForm] = useState<{
     username: string;
