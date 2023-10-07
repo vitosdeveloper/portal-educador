@@ -1,4 +1,5 @@
 import { numberColor } from '@/app/utils/numberColor';
+import { IStudent } from '@/types/Student';
 import { TableCell, TableRow } from '@mui/material';
 import Link from 'next/link';
 
@@ -33,8 +34,7 @@ const BimestresDeAlgumaMateriaDoAluno = ({
         {i === 0 && (
           <>
             <TableCell rowSpan={bimestresDessaMateria?.length}>
-              {/* trocar aqui pelo id qnd tiver na DB */}
-              <Link href={`/alunos/${alunoDaTurma.nome}`}>
+              <Link href={`/alunos/${alunoDaTurma._id}`}>
                 {alunoDaTurma.nome}
               </Link>
             </TableCell>
@@ -60,48 +60,13 @@ const BimestresDeAlgumaMateriaDoAluno = ({
 export default BimestresDeAlgumaMateriaDoAluno;
 
 type Props = {
-  bimestresDessaMateria:
-    | (
-        | {
-            teste: number;
-            prova: number;
-            presenca: number;
-            tarefas: number;
-            comportamento: number;
-          }
-        | {
-            teste: null;
-            prova: null;
-            presenca: null;
-            tarefas: number;
-            comportamento: null;
-          }
-      )[]
-    | undefined;
+  bimestresDessaMateria: {
+    teste: number | null;
+    prova: number | null;
+    presenca: number | null;
+    tarefas: number | null;
+    comportamento: number | null;
+  }[];
 
-  alunoDaTurma: {
-    nome: string;
-    idade: number;
-    turma: string;
-    materias: {
-      materia: string;
-      bimestres: (
-        | {
-            teste: number;
-            prova: number;
-            presenca: number;
-            tarefas: number;
-            comportamento: number;
-          }
-        | {
-            teste: null;
-            prova: null;
-            presenca: null;
-            tarefas: number;
-            comportamento: null;
-          }
-      )[];
-    }[];
-    matriculado: boolean;
-  };
+  alunoDaTurma: IStudent;
 };

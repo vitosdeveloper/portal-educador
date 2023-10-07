@@ -10,29 +10,32 @@ import {
 } from '@mui/material';
 import BimestresDeAlgumaMateriaDoAluno from './BimestresDeAlgumaMateriaDoAluno';
 import { numberColor } from '@/app/utils/numberColor';
+import { IStudent } from '@/types/Student';
 
 const AlunosDaTurma = ({
   alunosDaTurma,
   materiaObj,
   quantidadeDeBimestres,
 }: Props) => {
-  return alunosDaTurma.map((alunoDaTurma) => {
+  return alunosDaTurma?.map((alunoDaTurma) => {
     const essaMateria = alunoDaTurma.materias.find(
       (m) => m.materia === materiaObj.materia
     );
-    const bimestresDessaMateria = essaMateria?.bimestres;
-
+    const bimestresDessaMateria = essaMateria!.bimestres;
     let mediaDeTodosBimestresAtualmente = 0;
-    for (let bimestre of bimestresDessaMateria!) {
-      const { comportamento, presenca, prova, teste, tarefas } = bimestre;
-      const media =
-        ((comportamento || 0) +
-          (presenca || 0) +
-          (prova || 0) +
-          (teste || 0) +
-          (tarefas || 0)) /
-        3;
-      mediaDeTodosBimestresAtualmente += media;
+    for (let i = 0; i < bimestresDessaMateria.length; i++) {
+      if (i < quantidadeDeBimestres) {
+        const { comportamento, presenca, prova, teste, tarefas } =
+          bimestresDessaMateria[i];
+        const media =
+          ((comportamento || 0) +
+            (presenca || 0) +
+            (prova || 0) +
+            (teste || 0) +
+            (tarefas || 0)) /
+          3;
+        mediaDeTodosBimestresAtualmente += media;
+      }
     }
     mediaDeTodosBimestresAtualmente = Number(
       (mediaDeTodosBimestresAtualmente / quantidadeDeBimestres).toFixed(1)
@@ -96,31 +99,7 @@ const AlunosDaTurma = ({
 export default AlunosDaTurma;
 
 type Props = {
-  alunosDaTurma: {
-    nome: string;
-    idade: number;
-    turma: string;
-    materias: {
-      materia: string;
-      bimestres: (
-        | {
-            teste: number;
-            prova: number;
-            presenca: number;
-            tarefas: number;
-            comportamento: number;
-          }
-        | {
-            teste: null;
-            prova: null;
-            presenca: null;
-            tarefas: number;
-            comportamento: null;
-          }
-      )[];
-    }[];
-    matriculado: boolean;
-  }[];
+  alunosDaTurma: IStudent[];
   materiaObj: {
     materia: string;
     slug: string;
