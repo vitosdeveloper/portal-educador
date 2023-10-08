@@ -11,4 +11,5 @@ export const errors = {
   wrongMateria: (materia: string) => 'Você não dá aula de ' + materia + '.',
   dbAluno: 'Erro ao puxar dado dos alunos.',
   lonelyRoom: 'Essa turma aparentemente ainda não tem alunos.',
+  estudante: 'Estudante não encontrado.',
 };

@@ -2,7 +2,7 @@ import ErrorPage from '@/app/components/ErrorPage';
 import Title from '@/app/components/Text/Title';
 import AlunosDaTurma from '@/app/components/alunos/AlunosDaTurma';
 import Header from '@/app/components/partials/Header';
-import { getCollection } from '@/app/db/getCollection';
+import { getStudentsBy } from '@/app/db/getStudentsBy';
 import { professor } from '@/app/professorMockado';
 import {
   doesProfessorTeachHere,
@@ -10,6 +10,7 @@ import {
 } from '@/app/utils/doesProfessorTeachHere';
 import { er, errors } from '@/app/utils/errorUtils';
 import { materias } from '@/app/utils/materias';
+import { quantidadeDeBimestres } from '@/app/utils/quantidadeDeBimestres';
 import { turmas } from '@/app/utils/turmas';
 import { isStudent } from '@/types/Student';
 import { Box } from '@mui/material';
@@ -26,8 +27,7 @@ const MateriaPage = async ({ params: { turma, materia } }: Props) => {
       er(errors.wrongProfessor(turmaObj.turma));
     if (!doesProfessorTeachThis(professor, materiaObj.materia))
       er(errors.wrongMateria(materiaObj.materia));
-    const alunosCollection = await getCollection('alunos');
-    const query = await alunosCollection?.find({ turma }).toArray();
+    const query = await getStudentsBy({ turma });
     if (!query) er(errors.dbAluno);
     const queryWithId = query!.map((a) => ({
       ...a,
@@ -36,16 +36,9 @@ const MateriaPage = async ({ params: { turma, materia } }: Props) => {
     const alunosDaTurma = queryWithId.filter(isStudent);
     if (!alunosDaTurma) er(errors.dbAluno);
     if (!alunosDaTurma?.length) er(errors.lonelyRoom);
-    let quantidadeDeBimestres = 0;
-    const bimestresDeAlgumaMateria = alunosDaTurma![0].materias[0];
-
-    for (let i = 0; i < bimestresDeAlgumaMateria.bimestres.length; i++) {
-      const { comportamento, presenca, prova, teste, tarefas } =
-        bimestresDeAlgumaMateria.bimestres[i];
-      if (comportamento && presenca && prova && teste && tarefas) {
-        quantidadeDeBimestres = i + 1;
-      }
-    }
+    const quantidadeBimestres = quantidadeDeBimestres(
+      alunosDaTurma![0].materias[0].bimestres
+    );
 
     return (
       <Box sx={{ textAlign: 'center' }}>
@@ -56,7 +49,7 @@ const MateriaPage = async ({ params: { turma, materia } }: Props) => {
           <AlunosDaTurma
             alunosDaTurma={alunosDaTurma}
             materiaObj={materiaObj}
-            quantidadeDeBimestres={quantidadeDeBimestres}
+            quantidadeDeBimestres={quantidadeBimestres}
           />
         </Box>
       </Box>

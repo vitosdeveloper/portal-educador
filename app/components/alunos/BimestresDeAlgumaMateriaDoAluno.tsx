@@ -31,7 +31,7 @@ const BimestresDeAlgumaMateriaDoAluno = ({
 
     return (
       <TableRow sx={{ textAlign: 'center' }} key={i}>
-        {i === 0 && (
+        {i === 0 && alunoDaTurma && (
           <>
             <TableCell rowSpan={bimestresDessaMateria?.length}>
               <Link href={`/alunos/${alunoDaTurma._id}`}>
@@ -68,5 +68,5 @@ type Props = {
     comportamento: number | null;
   }[];
 
-  alunoDaTurma: IStudent;
+  alunoDaTurma?: IStudent;
 };

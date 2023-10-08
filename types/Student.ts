@@ -1,3 +1,10 @@
+export interface IBimestre {
+  teste: number | null;
+  prova: number | null;
+  presenca: number | null;
+  tarefas: number | null;
+  comportamento: number | null;
+}
 export interface IStudent {
   _id: string;
   nome: string;
@@ -5,13 +12,7 @@ export interface IStudent {
   turma: string;
   materias: {
     materia: string;
-    bimestres: {
-      teste: number | null;
-      prova: number | null;
-      presenca: number | null;
-      tarefas: number | null;
-      comportamento: number | null;
-    }[];
+    bimestres: IBimestre[];
   }[];
   matriculado: boolean;
 }

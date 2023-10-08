@@ -11,6 +11,8 @@ import {
 import BimestresDeAlgumaMateriaDoAluno from './BimestresDeAlgumaMateriaDoAluno';
 import { numberColor } from '@/app/utils/numberColor';
 import { IStudent } from '@/types/Student';
+import { mediaDeTodosBimestresAtualmente } from '@/app/utils/mediaDeTodosBimestresAtualmente';
+import { cellArr } from '@/app/utils/cellArr';
 
 const AlunosDaTurma = ({
   alunosDaTurma,
@@ -22,35 +24,11 @@ const AlunosDaTurma = ({
       (m) => m.materia === materiaObj.materia
     );
     const bimestresDessaMateria = essaMateria!.bimestres;
-    let mediaDeTodosBimestresAtualmente = 0;
-    for (let i = 0; i < bimestresDessaMateria.length; i++) {
-      if (i < quantidadeDeBimestres) {
-        const { comportamento, presenca, prova, teste, tarefas } =
-          bimestresDessaMateria[i];
-        const media =
-          ((comportamento || 0) +
-            (presenca || 0) +
-            (prova || 0) +
-            (teste || 0) +
-            (tarefas || 0)) /
-          3;
-        mediaDeTodosBimestresAtualmente += media;
-      }
-    }
-    mediaDeTodosBimestresAtualmente = Number(
-      (mediaDeTodosBimestresAtualmente / quantidadeDeBimestres).toFixed(1)
+    const mediaDosBimestresAtuais = mediaDeTodosBimestresAtualmente(
+      bimestresDessaMateria,
+      quantidadeDeBimestres
     );
-    const cellArr = [
-      'Aluno',
-      'Idade',
-      'Bimestre',
-      'Comportamento',
-      'Presença',
-      'Prova',
-      'Teste',
-      'Tarefas',
-      'Média',
-    ];
+
     return (
       <Box key={alunoDaTurma.nome} sx={{ marginBottom: '1rem' }}>
         <TableContainer
@@ -82,10 +60,10 @@ const AlunosDaTurma = ({
                 <TableCell
                   sx={{
                     fontWeight: 'bold',
-                    color: numberColor(mediaDeTodosBimestresAtualmente, 10),
+                    color: numberColor(mediaDosBimestresAtuais, 10),
                   }}
                 >
-                  {mediaDeTodosBimestresAtualmente}
+                  {mediaDosBimestresAtuais}
                 </TableCell>
               </TableRow>
             </TableHead>
