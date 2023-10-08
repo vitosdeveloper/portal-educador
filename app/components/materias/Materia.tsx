@@ -13,7 +13,8 @@ type Props = {
 
 const Materia = ({ materia, materiasLength, slug, index }: Props) => {
   const materiaObj = materias.find((m) => m.materia === materia)!;
-  const doesProfTeachThis = professor.materias.includes(materia);
+  const doesProfTeachThis =
+    professor.materias.includes(materia) || professor.diretor;
 
   return (
     <Box>

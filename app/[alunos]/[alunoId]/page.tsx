@@ -3,6 +3,7 @@ import Title from '@/app/components/Text/Title';
 import BimestresDeAlgumaMateriaDoAluno from '@/app/components/alunos/BimestresDeAlgumaMateriaDoAluno';
 import Header from '@/app/components/partials/Header';
 import { getStudentsBy } from '@/app/db/getStudentsBy';
+import { professor } from '@/app/professorMockado';
 import { minorCellArr } from '@/app/utils/cellArr';
 import { er, errors } from '@/app/utils/errorUtils';
 import { mediaDeTodosBimestresAtualmente } from '@/app/utils/mediaDeTodosBimestresAtualmente';
@@ -38,6 +39,11 @@ const AlunoProfile = async ({ params }: Props) => {
     const { nome, idade, matriculado, turma } = student[0];
     const foundTurma = turmas.find((t) => t.slug === turma);
     if (!foundTurma) return er(errors.turma(turma));
+    const materiasParaMostrar = professor.diretor
+      ? student[0].materias
+      : student[0].materias.filter((m) =>
+          professor.materias.includes(m.materia)
+        );
     return (
       <>
         <Header />
@@ -64,7 +70,7 @@ const AlunoProfile = async ({ params }: Props) => {
             </CardContent>
           </Card>
 
-          {student[0].materias.map((m) => {
+          {materiasParaMostrar.map((m) => {
             const quantidadeBimestres = quantidadeDeBimestres(m.bimestres);
             const mediaDosBimestresConcluidos = mediaDeTodosBimestresAtualmente(
               m.bimestres,

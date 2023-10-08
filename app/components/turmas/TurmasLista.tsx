@@ -4,7 +4,9 @@ import React from 'react';
 import Turma from './Turma';
 import { doesProfessorTeachHere } from '@/app/utils/doesProfessorTeachHere';
 
-type Props = { professor: { materias: string[]; nome: string } };
+type Props = {
+  professor: { materias: string[]; nome: string; diretor: boolean };
+};
 
 const TurmasLista = ({ professor }: Props) => {
   return (
