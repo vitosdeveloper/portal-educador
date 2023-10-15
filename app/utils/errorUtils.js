@@ -15,4 +15,5 @@ exports.errors = {
     dbAluno: 'Erro ao puxar dado dos alunos.',
     lonelyRoom: 'Essa turma aparentemente ainda não tem alunos.',
     estudante: 'Estudante não encontrado.',
+    diretor: 'Você não é um diretor.',
 };

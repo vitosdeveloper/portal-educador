@@ -26,4 +26,6 @@ Then, run the development server:
 npm run dev
 ```
 
+You can find all logins at /api/showLogins, and all passwords are "asd" for the sake of testing.
+
 Have fun! Work in progress.
