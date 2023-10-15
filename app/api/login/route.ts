@@ -3,7 +3,8 @@ import { NextResponse } from 'next/server';
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 import { cookies } from 'next/headers';
-import { getByLogin } from '@/app/db/getByLogin';
+import { getProfessorBy } from '@/app/db/getProfessorBy';
+import { IProfessor } from '@/app/utils/isProfessor';
 
 export async function POST(request: Request) {
   try {
@@ -11,9 +12,12 @@ export async function POST(request: Request) {
     username = username.trim();
     password = password.trim();
     if (username === '' || password === '') er(errors.input);
-    const user = await getByLogin(username);
+    const user = await getProfessorBy({ login: username });
     if (!user) er(errors.login);
-    const isPasswordCorrect = await bcrypt.compare(password, user?.senha);
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      (user as IProfessor)?.senha
+    );
     if (!isPasswordCorrect) er(errors.login);
     const cookie = cookies();
     const token = jwt.sign({ username }, process.env.JWT_SECRET, {

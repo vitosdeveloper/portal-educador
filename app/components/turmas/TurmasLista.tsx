@@ -3,15 +3,15 @@ import { Box, List } from '@mui/material';
 import React from 'react';
 import Turma from './Turma';
 import { doesProfessorTeachHere } from '@/app/utils/doesProfessorTeachHere';
+import { IProfessor } from '@/app/utils/isProfessor';
 
 type Props = {
-  professor: { materias: string[]; nome: string; diretor: boolean };
+  professor: IProfessor;
 };
 
 const TurmasLista = ({ professor }: Props) => {
   return (
     <Box
-      component='div'
       sx={{
         width: '100%',
         maxWidth: 360,

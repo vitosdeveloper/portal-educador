@@ -29,12 +29,12 @@ function Header() {
     <AppBar position='static'>
       <Toolbar sx={classes.nav}>
         <Box>
-          <Link href='/turmas'>
+          <Link href='/turmas' style={{ color: '#eee' }}>
             <Button sx={classes.link} color='inherit'>
               Turmas
             </Button>
           </Link>
-          <Link href='/direcao'>
+          <Link href='/direcao' style={{ color: '#eee' }}>
             <Button sx={classes.link} color='inherit'>
               Direção
             </Button>

@@ -1,4 +1,4 @@
-import { professor } from '@/app/professorMockado';
+import { IProfessor } from '@/app/utils/isProfessor';
 import { materias } from '@/app/utils/materias';
 import { Box, Divider, ListItemButton, ListItemText } from '@mui/material';
 import Link from 'next/link';
@@ -9,9 +9,16 @@ type Props = {
   slug: string;
   index: number;
   turma: string;
+  professor: IProfessor;
 };
 
-const Materia = ({ materia, materiasLength, slug, index }: Props) => {
+const Materia = ({
+  materia,
+  materiasLength,
+  slug,
+  index,
+  professor,
+}: Props) => {
   const materiaObj = materias.find((m) => m.materia === materia)!;
   const doesProfTeachThis =
     professor.materias.includes(materia) || professor.diretor;

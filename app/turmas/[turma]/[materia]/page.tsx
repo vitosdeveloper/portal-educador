@@ -2,13 +2,15 @@ import ErrorPage from '@/app/components/ErrorPage';
 import Title from '@/app/components/Text/Title';
 import AlunosDaTurma from '@/app/components/alunos/AlunosDaTurma';
 import Header from '@/app/components/partials/Header';
+import { getProfessorBy } from '@/app/db/getProfessorBy';
 import { getStudentsBy } from '@/app/db/getStudentsBy';
-import { professor } from '@/app/professorMockado';
 import {
   doesProfessorTeachHere,
   doesProfessorTeachThis,
 } from '@/app/utils/doesProfessorTeachHere';
 import { er, errors } from '@/app/utils/errorUtils';
+import { isJwtValid } from '@/app/utils/isJwtValid';
+import { IProfessor } from '@/app/utils/isProfessor';
 import { materias } from '@/app/utils/materias';
 import { quantidadeDeBimestres } from '@/app/utils/quantidadeDeBimestres';
 import { turmas } from '@/app/utils/turmas';
@@ -19,13 +21,16 @@ type Props = { params: { turma: string; materia: string } };
 
 const MateriaPage = async ({ params: { turma, materia } }: Props) => {
   try {
+    const { username } = isJwtValid();
+    const professor = await getProfessorBy({ login: username });
+
     const turmaObj = turmas.find((t) => t.slug === turma)!;
     if (!turmaObj) er(errors.turma(turma));
     const materiaObj = materias.find((m) => m.slug === materia)!;
     if (!materiaObj) er(errors.materia(materia));
-    if (!doesProfessorTeachHere(professor, turmaObj))
+    if (!doesProfessorTeachHere(professor as IProfessor, turmaObj))
       er(errors.wrongProfessor(turmaObj.turma));
-    if (!doesProfessorTeachThis(professor, materiaObj.materia))
+    if (!doesProfessorTeachThis(professor as IProfessor, materiaObj.materia))
       er(errors.wrongMateria(materiaObj.materia));
     const query = await getStudentsBy({ turma });
     if (!query) er(errors.dbAluno);

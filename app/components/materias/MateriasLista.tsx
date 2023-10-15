@@ -2,11 +2,13 @@ import { turmas } from '@/app/utils/turmas';
 import React from 'react';
 import Materia from './Materia';
 import { Box, List } from '@mui/material';
+import { IProfessor } from '@/app/utils/isProfessor';
 
-type Props = { turma: string };
+type Props = { turma: string; professor: IProfessor };
 
-const MateriasLista = ({ turma }: Props) => {
+const MateriasLista = ({ turma, professor }: Props) => {
   const { materias, slug } = turmas.find((i) => i.turma === turma)!;
+
   return (
     <Box
       component='div'
@@ -26,6 +28,7 @@ const MateriasLista = ({ turma }: Props) => {
             index={index}
             turma={turma}
             materiasLength={materias.length}
+            professor={professor}
           />
         ))}
       </List>

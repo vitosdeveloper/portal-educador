@@ -11,8 +11,8 @@ const LoginForm = () => {
     username: string;
     password: string;
   }>({
-    username: 'asd',
-    password: 'asd',
+    username: '',
+    password: '',
   });
 
   const handleFormChange = ({ target }: ChangeEvent<HTMLInputElement>) =>
@@ -51,6 +51,7 @@ const LoginForm = () => {
         id='username'
         required
         autoComplete='off'
+        autoFocus
       />
       <InputLabel htmlFor='password'>Password</InputLabel>
       <Input

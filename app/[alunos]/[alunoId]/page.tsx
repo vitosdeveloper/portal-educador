@@ -2,10 +2,12 @@ import ErrorPage from '@/app/components/ErrorPage';
 import Title from '@/app/components/Text/Title';
 import BimestresDeAlgumaMateriaDoAluno from '@/app/components/alunos/BimestresDeAlgumaMateriaDoAluno';
 import Header from '@/app/components/partials/Header';
+import { getProfessorBy } from '@/app/db/getProfessorBy';
 import { getStudentsBy } from '@/app/db/getStudentsBy';
-import { professor } from '@/app/professorMockado';
 import { minorCellArr } from '@/app/utils/cellArr';
 import { er, errors } from '@/app/utils/errorUtils';
+import { isJwtValid } from '@/app/utils/isJwtValid';
+import { IProfessor } from '@/app/utils/isProfessor';
 import { mediaDeTodosBimestresAtualmente } from '@/app/utils/mediaDeTodosBimestresAtualmente';
 import { numberColor } from '@/app/utils/numberColor';
 import { quantidadeDeBimestres } from '@/app/utils/quantidadeDeBimestres';
@@ -31,6 +33,8 @@ type Props = { params: { alunoId: string } };
 
 const AlunoProfile = async ({ params }: Props) => {
   try {
+    const { username } = isJwtValid();
+    const professor = await getProfessorBy({ login: username });
     const student = await getStudentsBy({
       _id: new ObjectId(params.alunoId),
     });
@@ -39,10 +43,10 @@ const AlunoProfile = async ({ params }: Props) => {
     const { nome, idade, matriculado, turma } = student[0];
     const foundTurma = turmas.find((t) => t.slug === turma);
     if (!foundTurma) return er(errors.turma(turma));
-    const materiasParaMostrar = professor.diretor
+    const materiasParaMostrar = (professor as IProfessor)?.diretor
       ? student[0].materias
       : student[0].materias.filter((m) =>
-          professor.materias.includes(m.materia)
+          (professor as IProfessor)?.materias.includes(m.materia)
         );
     return (
       <>
