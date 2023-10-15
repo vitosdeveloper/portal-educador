@@ -1,4 +1,3 @@
-import { List } from '@mui/material';
 import ErrorPage from '../components/ErrorPage';
 import Header from '../components/partials/Header';
 import ProfessorList from '../components/professors/ProfessorList';

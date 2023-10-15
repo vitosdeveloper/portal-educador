@@ -1,7 +1,10 @@
+import { ObjectId } from 'mongodb';
 import { er, errors } from '../utils/errorUtils';
 import { getCollection } from './getCollection';
 
-export const getProfessorBy = async (query: { [key: string]: string }) => {
+export const getProfessorBy = async (query: {
+  [key: string]: string | ObjectId;
+}) => {
   try {
     const professorCollection = await getCollection('professores');
     const queryProfessor = await professorCollection?.findOne(query);

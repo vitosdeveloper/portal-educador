@@ -21,9 +21,9 @@ const ProfessorList = async (props: Props) => {
             Remover professores (desativado)
           </Button>
         </ListItem>
-        {professors?.map(({ _id, nome }, index) => (
+        {professors?.map(({ _id, nome }) => (
           <ListItem key={_id}>
-            <Link href={`/professors/${_id}`}>
+            <Link href={`/professores/${_id}`}>
               <Button sx={{ width: 280 }} variant='contained' color='primary'>
                 {nome}
               </Button>

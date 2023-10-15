@@ -4,5 +4,5 @@ export interface IProfessor {
   materias: string[];
   diretor: boolean;
   login: string;
-  senha: string;
+  senha?: string;
 }
