@@ -1,7 +1,9 @@
 import { er, errors } from '@/app/utils/errorUtils';
 import { NextResponse } from 'next/server';
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 import { cookies } from 'next/headers';
+import { getByLogin } from '@/app/db/getByLogin';
 
 export async function POST(request: Request) {
   try {
@@ -9,7 +11,10 @@ export async function POST(request: Request) {
     username = username.trim();
     password = password.trim();
     if (username === '' || password === '') er(errors.input);
-    if (username !== 'asd' || password !== 'asd') er(errors.login);
+    const user = await getByLogin(username);
+    if (!user) er(errors.login);
+    const isPasswordCorrect = await bcrypt.compare(password, user?.senha);
+    if (!isPasswordCorrect) er(errors.login);
     const cookie = cookies();
     const token = jwt.sign({ username }, process.env.JWT_SECRET, {
       expiresIn: '1h',
