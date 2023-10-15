@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "generate-students": "tsc seed/generateStudents && node seed/generateStudents.js",
+    "generate-db-data": "tsc seed/generateDbData && node seed/generateDbData.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -15,7 +15,9 @@
     "@mui/icons-material": "^5.14.12",
     "@mui/material": "^5.14.12",
     "@mui/styled-engine-sc": "^5.14.12",
+    "@types/bcrypt": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.3",
+    "bcrypt": "^5.1.1",
     "cookies-next": "^4.0.0",
     "dotenv": "^16.3.1",
     "jsonwebtoken": "^9.0.2",

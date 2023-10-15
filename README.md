@@ -11,12 +11,13 @@ On the root, create a `.env.local`:
 ```env
 JWT_SECRET=
 MONGO_URI=
+BCRYPT_SALT=
 ```
 
 Install mongoDB, then feed it with:
 
 ```bash
-npm run generate-students
+npm run generate-db-data
 ```
 
 Then, run the development server:

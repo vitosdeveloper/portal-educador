@@ -69,7 +69,6 @@ const AlunoProfile = async ({ params }: Props) => {
               </Typography>
             </CardContent>
           </Card>
-
           {materiasParaMostrar.map((m) => {
             const quantidadeBimestres = quantidadeDeBimestres(m.bimestres);
             const mediaDosBimestresConcluidos = mediaDeTodosBimestresAtualmente(
