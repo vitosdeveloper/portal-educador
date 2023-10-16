@@ -76,14 +76,12 @@ bcrypt.hash(
     ) => {
       const query = await collection?.insertMany(generatedStudents);
       if (!query || !query.acknowledged) er(strArr.stu[0]);
-      console.log(strArr.stu[1]);
     };
     const addProfessors = async (
       collection: Collection<Document> | undefined
     ) => {
       const query = await collection?.insertMany(generatedProfessors);
       if (!query || !query.acknowledged) er(strArr.pro[0]);
-      console.log(strArr.pro[1]);
     };
     const addDiretor = async (collection: Collection<Document> | undefined) => {
       const query = await collection?.insertOne({
@@ -94,7 +92,6 @@ bcrypt.hash(
         senha: hashedPassword,
       });
       if (!query || !query.acknowledged) er(strArr.dir[0]);
-      console.log(strArr.dir[1]);
     };
 
     await addStudents(await getCollection('alunos'));

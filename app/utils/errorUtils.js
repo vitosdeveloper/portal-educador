@@ -16,4 +16,5 @@ exports.errors = {
     lonelyRoom: 'Essa turma aparentemente ainda não tem alunos.',
     estudante: 'Estudante não encontrado.',
     diretor: 'Você não é um diretor.',
+    updateLength: 'Nenhum aluno foi alterado.',
 };

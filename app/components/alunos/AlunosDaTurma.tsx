@@ -16,6 +16,9 @@ import { IStudent } from '@/types/Student';
 import { mediaDeTodosBimestresAtualmente } from '@/app/utils/mediaDeTodosBimestresAtualmente';
 import { cellArr } from '@/app/utils/cellArr';
 import { useState } from 'react';
+import useFetch from '@/app/custom-hooks/useFetch';
+import Error from '../form/Error';
+import Loading from '../form/Loading';
 
 const AlunosDaTurma = ({
   alunosDaTurma,
@@ -25,29 +28,40 @@ const AlunosDaTurma = ({
   const [editable, setEditable] = useState<boolean>(false);
   const [alunosDaTurmaFiltrados, setAlunosDaTurmaFiltrados] =
     useState<IStudent[]>(alunosDaTurma);
+  const { error, loading, data, request } = useFetch();
 
-  const handleUpdateStudents = () => {
+  const handleUpdateChangedStudents = async () => {
     setEditable((prev) => !prev);
     if (!editable) return;
-    console.log(
-      'checar jwt no backend, PUT nos dados dos alunos dessa turma, depois um refresh reativo'
-    );
+    let changedStudents: IStudent[] = [];
+    for (const aluno of alunosDaTurmaFiltrados) {
+      const hasCHanged = !alunosDaTurma.includes(aluno);
+      if (hasCHanged) changedStudents.push(aluno);
+    }
+    await request('/api/updateStudents', {
+      method: 'PUT',
+      body: JSON.stringify({
+        changedStudents,
+        materia: materiaObj.materia,
+      }),
+    });
   };
   return (
-    <Box
-      component='div'
-      sx={{
-        display: 'grid',
-        gap: '1rem',
-      }}
-    >
-      <Button
-        sx={{ margin: '0 auto' }}
-        variant='outlined'
-        onClick={handleUpdateStudents}
-      >
-        {editable ? 'Salvar' : 'Editar'}
-      </Button>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+      {loading ? (
+        <Loading loading={loading} />
+      ) : (
+        <>
+          <Button
+            sx={{ margin: '0 auto' }}
+            variant='outlined'
+            onClick={handleUpdateChangedStudents}
+          >
+            {editable ? 'Salvar' : 'Editar'}
+          </Button>
+          {error && <Error error={error} />}
+        </>
+      )}
       {alunosDaTurmaFiltrados?.map((alunoDaTurma) => {
         const essaMateria = alunoDaTurma.materias.find(
           (m) => m.materia === materiaObj.materia
