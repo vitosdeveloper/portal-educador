@@ -1,5 +1,7 @@
+'use client';
 import {
   Box,
+  Button,
   Paper,
   Table,
   TableBody,
@@ -13,65 +15,100 @@ import { numberColor } from '@/app/utils/numberColor';
 import { IStudent } from '@/types/Student';
 import { mediaDeTodosBimestresAtualmente } from '@/app/utils/mediaDeTodosBimestresAtualmente';
 import { cellArr } from '@/app/utils/cellArr';
+import { useState } from 'react';
 
 const AlunosDaTurma = ({
   alunosDaTurma,
   materiaObj,
   quantidadeDeBimestres,
 }: Props) => {
-  return alunosDaTurma?.map((alunoDaTurma) => {
-    const essaMateria = alunoDaTurma.materias.find(
-      (m) => m.materia === materiaObj.materia
-    );
-    const bimestresDessaMateria = essaMateria!.bimestres;
-    const mediaDosBimestresAtuais = mediaDeTodosBimestresAtualmente(
-      bimestresDessaMateria,
-      quantidadeDeBimestres
-    );
+  const [editable, setEditable] = useState<boolean>(false);
+  const [alunosDaTurmaFiltrados, setAlunosDaTurmaFiltrados] =
+    useState<IStudent[]>(alunosDaTurma);
 
-    return (
-      <Box key={alunoDaTurma.nome} sx={{ marginBottom: '1rem' }}>
-        <TableContainer
-          component={Paper}
-          sx={{ maxWidth: '879px', margin: '0 auto' }}
-        >
-          <Table>
-            <TableHead>
-              <TableRow>
-                {cellArr.map((cell) => (
-                  <TableCell key={cell}>{cell}</TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <BimestresDeAlgumaMateriaDoAluno
-                bimestresDessaMateria={bimestresDessaMateria}
-                alunoDaTurma={alunoDaTurma}
-              />
-            </TableBody>
-          </Table>
-
-          <Table>
-            <TableHead>
-              <TableRow sx={{ display: 'flex' }}>
-                <TableCell>
-                  Média dos {quantidadeDeBimestres} bimestres
-                </TableCell>
-                <TableCell
-                  sx={{
-                    fontWeight: 'bold',
-                    color: numberColor(mediaDosBimestresAtuais, 10),
-                  }}
-                >
-                  {mediaDosBimestresAtuais}
-                </TableCell>
-              </TableRow>
-            </TableHead>
-          </Table>
-        </TableContainer>
-      </Box>
+  const handleUpdateStudents = () => {
+    setEditable((prev) => !prev);
+    if (!editable) return;
+    console.log(
+      'checar jwt no backend, PUT nos dados dos alunos dessa turma, depois um refresh reativo'
     );
-  });
+  };
+  return (
+    <Box
+      component='div'
+      sx={{
+        display: 'grid',
+        gap: '1rem',
+      }}
+    >
+      <Button
+        sx={{ margin: '0 auto' }}
+        variant='outlined'
+        onClick={handleUpdateStudents}
+      >
+        {editable ? 'Salvar' : 'Editar'}
+      </Button>
+      {alunosDaTurmaFiltrados?.map((alunoDaTurma) => {
+        const essaMateria = alunoDaTurma.materias.find(
+          (m) => m.materia === materiaObj.materia
+        );
+        const bimestresDessaMateria = essaMateria!.bimestres;
+        const mediaDosBimestresAtuais = mediaDeTodosBimestresAtualmente(
+          bimestresDessaMateria,
+          quantidadeDeBimestres
+        );
+
+        return (
+          <Box
+            component='div'
+            key={alunoDaTurma._id}
+            sx={{ marginBottom: '1rem' }}
+          >
+            <TableContainer
+              component={Paper}
+              sx={{ maxWidth: '879px', margin: '0 auto' }}
+            >
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    {cellArr.map((cell) => (
+                      <TableCell key={cell}>{cell}</TableCell>
+                    ))}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <BimestresDeAlgumaMateriaDoAluno
+                    editable={editable}
+                    bimestresDessaMateria={bimestresDessaMateria}
+                    alunoDaTurma={alunoDaTurma}
+                    setAlunosDaTurmaFiltrados={setAlunosDaTurmaFiltrados}
+                    materiaObj={materiaObj}
+                  />
+                </TableBody>
+              </Table>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ display: 'flex' }}>
+                    <TableCell>
+                      Média dos {quantidadeDeBimestres} bimestres
+                    </TableCell>
+                    <TableCell
+                      sx={{
+                        fontWeight: 'bold',
+                        color: numberColor(mediaDosBimestresAtuais, 10),
+                      }}
+                    >
+                      {mediaDosBimestresAtuais}
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+              </Table>
+            </TableContainer>
+          </Box>
+        );
+      })}
+    </Box>
+  );
 };
 
 export default AlunosDaTurma;
