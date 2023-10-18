@@ -5,7 +5,6 @@ import { ObjectId } from 'mongodb';
 import { NextResponse } from 'next/server';
 
 export async function PUT(request: Request) {
-  console.log(errors.emptyFields(['teste1', 'teste2']));
   try {
     const body = await request.json();
     if (!body.materias.length) er(errors.noMateria);
@@ -18,19 +17,20 @@ export async function PUT(request: Request) {
         emptyMaterias.length && campos.push(key);
       }
     }
-
     if (campos.length) er(errors.emptyFields(campos));
     const validMaterias = materiasExistentes.map((m) => m.materia);
     const invalidMaterias = body.materias.filter(
       (m: string) => !validMaterias.includes(m)
     );
     if (invalidMaterias.length) er(errors.invalidMateria(invalidMaterias));
-    const { _id, materias, nome, login } = body;
+    const { _id, materias, nome, login, originalLogin } = body;
     const professorsCollection = await getCollection('professores');
-    const hasAnotherProfessor = await professorsCollection?.findOne({
-      login,
-    });
-    if (hasAnotherProfessor) er(errors.hasAlready);
+    if (originalLogin !== login) {
+      const hasAnotherProfessor = await professorsCollection?.findOne({
+        login,
+      });
+      if (hasAnotherProfessor) er(errors.hasAlready);
+    }
     const query = await professorsCollection?.updateOne(
       { _id: new ObjectId(_id) },
       { $set: { materias, nome, login } }

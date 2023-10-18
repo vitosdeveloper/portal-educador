@@ -45,7 +45,13 @@ const ProfessorProfile = ({ professor }: Props) => {
     const { login, materias, nome, _id } = editedProfessor;
     await request('/api/professor/edit', {
       method: 'PUT',
-      body: JSON.stringify({ login, materias, nome, _id }),
+      body: JSON.stringify({
+        login,
+        materias,
+        nome,
+        _id,
+        originalLogin: professor.login,
+      }),
     });
     setIsEditing(false);
     router.refresh();
