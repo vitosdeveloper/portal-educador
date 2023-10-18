@@ -1,4 +1,5 @@
 'use client';
+import useFetch from '@/app/custom-hooks/useFetch';
 import { IProfessor } from '@/app/utils/isProfessor';
 import { materias } from '@/app/utils/materias';
 import {
@@ -9,21 +10,25 @@ import {
   TextField,
 } from '@mui/material';
 import { ChangeEvent, useState } from 'react';
+import Loading from '../form/Loading';
+import Error from '../form/Error';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   professor: IProfessor;
 };
 
 const ProfessorProfile = ({ professor }: Props) => {
+  const router = useRouter();
   const [editedProfessor, setEditedProfessor] = useState<IProfessor>(professor);
   const [isEditing, setIsEditing] = useState(false);
+  const { loading, error, data, request, setState } = useFetch();
 
   const handleFieldChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const value = e.target.value;
     const fieldName = e.target.name;
-    console.log(fieldName, value);
     setEditedProfessor({ ...editedProfessor, [fieldName]: value });
   };
 
@@ -36,11 +41,14 @@ const ProfessorProfile = ({ professor }: Props) => {
     setEditedProfessor({ ...editedProfessor, materias });
   };
 
-  const handleSave = () => {
-    //  checar se o array de matérias não está vazio no servidor
-    //  checar se o nome e login já existem na db, se estão vazios ou se
-    console.log(editedProfessor);
+  const handleSave = async () => {
+    const { login, materias, nome, _id } = editedProfessor;
+    await request('/api/professor/edit', {
+      method: 'PUT',
+      body: JSON.stringify({ login, materias, nome, _id }),
+    });
     setIsEditing(false);
+    router.refresh();
   };
 
   return (
@@ -94,18 +102,26 @@ const ProfessorProfile = ({ professor }: Props) => {
           })}
         </Box>
       )}
-      {isEditing ? (
-        <Button variant='contained' color='primary' onClick={handleSave}>
-          Save
-        </Button>
+      {error && <Error error={error} />}
+      {!loading ? (
+        isEditing ? (
+          <Button variant='contained' color='primary' onClick={handleSave}>
+            Save
+          </Button>
+        ) : (
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => {
+              setIsEditing(true);
+              setState((prev) => ({ ...prev, error: null }));
+            }}
+          >
+            Edit
+          </Button>
+        )
       ) : (
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={() => setIsEditing(true)}
-        >
-          Edit
-        </Button>
+        <Loading loading={loading} />
       )}
     </Box>
   );

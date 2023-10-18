@@ -1,6 +1,5 @@
 import { Box, Divider, ListItemButton, ListItemText } from '@mui/material';
 import Link from 'next/link';
-import React from 'react';
 
 type Props = {
   turmas: {
@@ -19,7 +18,7 @@ type Props = {
 
 const Turma = ({ turmas, turmaObj, doesProfessorTeachHere, index }: Props) => {
   return (
-    <React.Fragment>
+    <>
       <Box
         component={doesProfessorTeachHere ? Link : 'span'}
         href={`/turmas/${turmaObj.slug}`}
@@ -33,7 +32,7 @@ const Turma = ({ turmas, turmaObj, doesProfessorTeachHere, index }: Props) => {
         </ListItemButton>
       </Box>
       {index < turmas.length - 1 && <Divider />}
-    </React.Fragment>
+    </>
   );
 };
 

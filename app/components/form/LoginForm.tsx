@@ -1,12 +1,14 @@
 'use client';
 import { Input, InputLabel, Button, Box } from '@mui/material';
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState, useEffect } from 'react';
 import Error from './Error';
 import useFetch from '@/app/custom-hooks/useFetch';
 import Loading from './Loading';
+import { useRouter } from 'next/navigation';
 
 const LoginForm = () => {
-  const { error, loading, data, request } = useFetch('/turmas');
+  const router = useRouter();
+  const { error, loading, request } = useFetch('/turmas');
   const [form, setForm] = useState<{
     username: string;
     password: string;
@@ -28,6 +30,8 @@ const LoginForm = () => {
       body: JSON.stringify(form),
     });
   };
+
+  useEffect(() => router.refresh(), [router]);
 
   return (
     <Box

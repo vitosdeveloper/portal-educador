@@ -34,7 +34,7 @@ const useFetch = <T,>(redirect?: string) => {
     }
   };
 
-  return { ...state, request };
+  return { ...state, request, setState };
 };
 
 export default useFetch;

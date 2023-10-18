@@ -15,4 +15,11 @@ export const errors = {
   diretor: 'Você não é um diretor.',
   updateLength: 'Nenhum aluno foi alterado.',
   jwt: 'Login expirado ou inválido.',
+  emptyFields: (campos: string[]) =>
+    'Campo(s): "' + campos.join(', ') + '" vazio(s).',
+  invalidMateria: (m: string[]) =>
+    'Matéria(s): "' + m.join(', ') + '" não existe(m).',
+  noChanges: 'Nenhuma alteração foi detectada.',
+  noMateria: 'Nenhuma matéria foi selecionada.',
+  hasAlready: 'Login já está em uso',
 };
